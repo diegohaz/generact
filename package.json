@@ -1,6 +1,6 @@
 {
   "name": "generact",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "description": "Tool for generating React components by replicating your own components",
   "license": "MIT",
   "repository": "diegohaz/generact",
