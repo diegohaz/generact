@@ -46,10 +46,6 @@ test('getFiles', async () => {
     join(cwd, 'Button.js'),
     join(cwd, 'Button.test.js'),
   ])
-  expect(await getFiles(cwd, true)).toEqual([
-    join(cwd, 'Button.js'),
-    join(cwd, 'Button.test.js'),
-  ])
 })
 
 test('getComponentFiles', async () => {

@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 import { join, relative, isAbsolute, dirname, basename, extname } from 'path'
 import { copy, move, readFileSync, writeFileSync } from 'fs-extra'
-import { blue, red, bold } from 'chalk'
+import { cyan, green, red } from 'chalk'
 import meow from 'meow'
 import inquirer from 'inquirer'
 import autocomplete from 'inquirer-autocomplete-prompt'
@@ -27,7 +27,6 @@ const cli = meow(`
   Examples
     $ generact
     $ generact src/components/Button.js
-    $ generact ../src/components/Button
     $ generact --root src/components
 `)
 
@@ -42,40 +41,46 @@ const replicate = async (path) => {
     folder(originalFolder),
   ])
 
+  const spinner = ora(`Replicating ${cyan(originalName)} as ${cyan(answers.name)}...`).start()
+
   if (isSingleFile(path)) {
-    const destinationPath = join(answers.folder, answers.name + extname(path))
+    const destinationPath = join(process.cwd(), answers.folder, answers.name + extname(path))
     await copy(absolutePath, destinationPath)
     const contents = readFileSync(destinationPath).toString()
     writeFileSync(destinationPath, replaceContents(contents, originalName, answers.name))
   } else {
-    const destinationPath = join(answers.folder, answers.name)
+    const destinationPath = join(process.cwd(), answers.folder, answers.name)
     await copy(dirname(absolutePath), destinationPath)
-    const scriptFiles = getFiles(destinationPath, true)
+    const files = getFiles(destinationPath)
+    const promises = []
 
-    scriptFiles.forEach(async (file) => {
+    files.forEach((file) => {
       const contents = readFileSync(file).toString()
+      const renamedPath = join(dirname(file), basename(file).replace(originalName, answers.name))
       writeFileSync(file, replaceContents(contents, originalName, answers.name))
+      const promise = move(file, renamedPath)
+      promises.push(promise)
     })
 
-    getFiles(destinationPath).forEach(async (file) => {
-      await move(file, join(dirname(file), basename(file).replace(originalName, answers.name)))
-    })
+    await Promise.all(promises)
   }
+
+  spinner.stop()
 }
 
 const scan = async (root = process.cwd()) => {
   const absoluteRoot = isAbsolute(root) ? root : join(process.cwd(), root)
-  const spinner = ora(`Scanning ${blue(absoluteRoot)} for React component files...`).start()
+  const spinner = ora(`Scanning ${green(absoluteRoot)} for React component files...`).start()
   const files = await getComponentFiles(absoluteRoot)
   spinner.stop()
 
   if (!files.length) {
     console.log(red.bold('No components found! :(\n'))
-    console.log(`Make sure you are running ${bold('generact')} inside a React-like project directory or using ${bold('root')} option:\n`)
-    console.log('    $ generact --root ../path/to/my/other/react/project\n')
-    console.log(`If you are already doing that, it means that ${bold('generact')} could not find your React component files automagically.`)
+    console.log(`Make sure you are running ${cyan('generact')} inside a React-like project directory or using ${green('root')} option:\n`)
+    console.log(`    ${cyan('$ generact')} ${green('--root relative/or/absolute/path/to/any/react/project')}\n`)
+    console.log(`If you are already doing that, it means that ${cyan('generact')} could not find your React component files automagically.`)
     console.log('In this case, you can explicitly pass the component path to replicate:\n')
-    console.log('    $ generact path/to/my/react/component.js\n')
+    console.log(`    ${cyan('$ generact')} ${green('relative/or/absolute/path/to/my/react/component.js')}\n`)
     return process.exit(1)
   }
 

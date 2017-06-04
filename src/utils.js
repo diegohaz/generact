@@ -36,9 +36,9 @@ export const isSingleFile = (path: string): boolean => {
   return dir !== name
 }
 
-export const getFiles = (cwd: string, onlyScripts: boolean): string[] => {
-  const pattern = onlyScripts ? '**/*.{js,ts,jsx,tsx}' : '**'
-  return glob.sync(pattern, { cwd, absolute: true })
+export const getFiles = (cwd: string): string[] => {
+  const pattern = '**/*.{js,ts,jsx,tsx,css,less,scss}'
+  return glob.sync(pattern, { cwd, absolute: true, nodir: true })
 }
 
 export const getComponentFiles = (root: string): Promise<InquirerFile[]> => (
