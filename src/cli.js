@@ -41,8 +41,6 @@ const replicate = async (path) => {
     folder(originalFolder),
   ])
 
-  const spinner = ora(`Replicating ${cyan(originalName)} as ${cyan(answers.name)}...`).start()
-
   if (isSingleFile(path)) {
     const destinationPath = join(process.cwd(), answers.folder, answers.name + extname(path))
     await copy(absolutePath, destinationPath)
@@ -64,8 +62,6 @@ const replicate = async (path) => {
 
     await Promise.all(promises)
   }
-
-  spinner.stop()
 }
 
 const scan = async (root = process.cwd()) => {
