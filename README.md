@@ -9,11 +9,17 @@
   <a href="https://codecov.io/gh/diegohaz/generact/branch/master"><img alt="Coverage Status" src="https://img.shields.io/codecov/c/github/diegohaz/generact/master.svg?style=flat-square" /></a>
 </p>
 
+<br />
+
+<p align="center">
+  <em>Tool for generating React components by replicating your own components.</em>
+</p>
+
+<br />
+
 <p align="center">
   <img src="https://cloud.githubusercontent.com/assets/3068563/26760265/3cc4403e-48ea-11e7-8156-e206144a0709.gif" alt="generact" width="100%" />
 </p>
-
-Tool for generating React components based on your own components.
 
 ## Install
 
