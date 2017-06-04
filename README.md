@@ -15,23 +15,57 @@
   <em>Tool for generating React components by replicating your own components.</em>
 </p>
 
-<br />
-
 <p align="center">
-  <img src="https://cloud.githubusercontent.com/assets/3068563/26760265/3cc4403e-48ea-11e7-8156-e206144a0709.gif" alt="generact" width="100%" />
+  <img src="https://cloud.githubusercontent.com/assets/3068563/26765610/98f621a4-4955-11e7-8908-096675261aee.gif" alt="generact" width="1024" />
 </p>
+
+> It already works with boilerplates such as [create-react-app](https://github.com/facebookincubator/create-react-app) (GIF example), [react-boilerplate](https://github.com/react-boilerplate/react-boilerplate), [react-starter-kit](https://github.com/kriasoft/react-starter-kit) and [ARc](https://arc.js.org) (ok, I'm self-promoting here 😆). So, most likely this will work for you with your current project.
 
 ## Install
 
-    $ npm install -g generact
+```sh
+$ npm install -g generact
+```
+
+## Motivation
+
+<p align="center">
+  <a href="https://www.facebook.com/groups/228321510706889/permalink/614412725431097/"><img alt="Facebook poll" src="https://cloud.githubusercontent.com/assets/3068563/26765726/79542d66-4958-11e7-91a1-19d55b766f12.png" height="250" /></a>
+  <a href="https://twitter.com/diegohaz"><img alt="Facebook poll" src="https://cloud.githubusercontent.com/assets/3068563/26765748/18e53fd2-4959-11e7-93c9-ecc2452ea10e.png" height="250" /></a>
+</p>
+
+I usually work on different projects with different file structures. Whenever I needed to create a new component, the approach I used was to copy and paste a similar or very basic component and start writing the new component from it. Talking with other developers, this seemed like a very common process.
+
+However, I've never been satisfied with that. It looked like I was doing a robot job. So why not create a robot to do that?
 
 ## Usage
 
-    $ generact
+```sh
+$ cd ~/my-projects/my-react-project
+$ generact
+```
 
-Yeah! That's just it.
+That will scan `~/my-projects/my-react-project` for components to replicate.
+
+### Specify another root path to find components
+
+If you want to replicate components from another directory, you can do that by using `root` option:
+
+```sh
+$ generact --root relative/or/absolute/path/to/any/react/project
+```
+
+### Specify component path to replicate
+
+`generact` will probably find all component files inside the root path automagically. But, if it doesn't, you can still pass in the component path:
+
+```sh
+$ generact relative/or/absolute/path/to/component.js
+```
 
 ## Contributing
+
+PRs are welcome.
 
 Use `npm run watch` while coding.
 
