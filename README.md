@@ -19,7 +19,7 @@
   <img src="https://cloud.githubusercontent.com/assets/3068563/26765610/98f621a4-4955-11e7-8908-096675261aee.gif" alt="generact" width="1024" />
 </p>
 
-> It already works with boilerplates such as [create-react-app](https://github.com/facebookincubator/create-react-app) (GIF example), [react-boilerplate](https://github.com/react-boilerplate/react-boilerplate), [react-starter-kit](https://github.com/kriasoft/react-starter-kit) and [ARc](https://arc.js.org) (ok, I'm self-promoting here 😆). So, most likely this will work for you with your current project.
+> It already works with boilerplates such as [create-react-app](https://github.com/facebookincubator/create-react-app) (above example), [react-boilerplate](https://github.com/react-boilerplate/react-boilerplate), [react-starter-kit](https://github.com/kriasoft/react-starter-kit) and [ARc](https://arc.js.org) (ok, I'm self-promoting here 😆). So, most likely this will work for you with your current project.
 
 ## Install
 
