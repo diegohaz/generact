@@ -32,6 +32,8 @@ describe('create-react-app', () => {
 
     it('created component file properly', () => {
       expect(pathExistsSync(tmp('MyComponent.js'))).toBe(true)
+      expect(pathExistsSync(tmp('MyComponent.css'))).toBe(true)
+      expect(pathExistsSync(tmp('MyComponent.test.js'))).toBe(true)
     })
 
     it('modified component contents properly', () => {

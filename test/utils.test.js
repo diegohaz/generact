@@ -39,13 +39,24 @@ test('isSingleFile', () => {
   expect(isSingleFile('src/components/FooBar/foo-bar.jsx')).toBe(false)
 })
 
-test('getFiles', async () => {
-  const cwd = join(__dirname, 'fixtures/create-react-app/src/components/Button')
-  expect(await getFiles(cwd)).toEqual([
-    join(cwd, 'Button.css'),
-    join(cwd, 'Button.js'),
-    join(cwd, 'Button.test.js'),
-  ])
+describe('getFiles', () => {
+  test('Button', () => {
+    const cwd = join(__dirname, 'fixtures/create-react-app/src/components/Button')
+    expect(getFiles(cwd)).toEqual([
+      join(cwd, 'Button.css'),
+      join(cwd, 'Button.js'),
+      join(cwd, 'Button.test.js'),
+    ])
+  })
+
+  test('App', async () => {
+    const cwd = join(__dirname, 'fixtures/create-react-app/src')
+    expect(getFiles(cwd, 'App')).toEqual([
+      join(cwd, 'App.css'),
+      join(cwd, 'App.js'),
+      join(cwd, 'App.test.js'),
+    ])
+  })
 })
 
 test('getComponentFiles', async () => {
