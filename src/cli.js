@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
-import { join, relative, isAbsolute, dirname, basename, extname } from 'path'
+import { join, relative, isAbsolute, dirname, basename } from 'path'
 import { copy, move, readFileSync, writeFileSync } from 'fs-extra'
 import { cyan, green, red } from 'chalk'
 import meow from 'meow'
@@ -35,6 +35,7 @@ const replicate = async (path) => {
   const absolutePath = isAbsolute(path) ? path : join(process.cwd(), path)
   const relativePath = relative(process.cwd(), absolutePath)
   const originalFolder = getComponentFolder(relativePath)
+  const promises = []
 
   const answers = await inquirer.prompt([
     name(originalName),
@@ -42,15 +43,21 @@ const replicate = async (path) => {
   ])
 
   if (isSingleFile(path)) {
-    const destinationPath = join(process.cwd(), answers.folder, answers.name + extname(path))
-    await copy(absolutePath, destinationPath)
-    const contents = readFileSync(destinationPath).toString()
-    writeFileSync(destinationPath, replaceContents(contents, originalName, answers.name))
+    const files = getFiles(dirname(absolutePath), originalName)
+
+    files.forEach(async (file) => {
+      const filename = basename(file).replace(originalName, answers.name)
+      const destinationPath = join(process.cwd(), answers.folder, filename)
+      const promise = copy(file, destinationPath).then(() => {
+        const contents = readFileSync(destinationPath).toString()
+        writeFileSync(destinationPath, replaceContents(contents, originalName, answers.name))
+      })
+      promises.push(promise)
+    })
   } else {
     const destinationPath = join(process.cwd(), answers.folder, answers.name)
     await copy(dirname(absolutePath), destinationPath)
     const files = getFiles(destinationPath)
-    const promises = []
 
     files.forEach((file) => {
       const contents = readFileSync(file).toString()
@@ -59,9 +66,8 @@ const replicate = async (path) => {
       const promise = move(file, renamedPath)
       promises.push(promise)
     })
-
-    await Promise.all(promises)
   }
+  await Promise.all(promises)
 }
 
 const scan = async (root = process.cwd()) => {
