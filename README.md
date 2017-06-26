@@ -58,7 +58,7 @@ $ generact --root relative/or/absolute/path/to/any/react/project
 
 ### Specify component path to replicate
 
-`generact` will probably find all component files inside the root path automagically. But, if it doesn't, you can still pass in the component path:
+`generact` will probably find all component files inside the root path automagically (using [list-react-files](https://github.com/diegohaz/list-react-files)). But, if it doesn't, you can still pass in the component path:
 
 ```sh
 $ generact relative/or/absolute/path/to/component.js
