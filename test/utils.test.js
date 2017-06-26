@@ -57,6 +57,14 @@ describe('getFiles', () => {
       join(cwd, 'App.test.js'),
     ])
   })
+
+  test('Link', async () => {
+    const cwd = join(__dirname, 'fixtures/react-static-boilerplate/components/Link')
+    expect(getFiles(cwd)).toEqual([
+      join(cwd, 'Link.js'),
+      join(cwd, 'package.json'),
+    ])
+  })
 })
 
 test('getComponentFiles', async () => {
