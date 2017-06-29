@@ -60,3 +60,21 @@ describe('create-react-app', () => {
     })
   })
 })
+
+describe('react-static-boilerplate', () => {
+  describe('components/Button', () => {
+    beforeAll(() => exec(root('react-static-boilerplate'), { component: '', name: 'MyComponent' }))
+
+    it('created component file properly', () => {
+      expect(pathExistsSync(tmp('MyComponent/MyComponent.js'))).toBe(true)
+      expect(pathExistsSync(tmp('MyComponent/package.json'))).toBe(true)
+    })
+
+    it('modified package contents properly', () => {
+      const contents = readFileSync(tmp('MyComponent/package.json')).toString()
+      const json = JSON.parse(contents)
+      expect(json.name).toBe('MyComponent')
+      expect(json.main).toBe('./MyComponent.js')
+    })
+  })
+})
