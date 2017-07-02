@@ -1,6 +1,6 @@
 {
   "name": "generact",
-  "version": "0.2.0",
+  "version": "0.2.4",
   "description": "Tool for generating React components by replicating your own components",
   "license": "MIT",
   "repository": "diegohaz/generact",
@@ -9,6 +9,8 @@
     "email": "hazdiego@gmail.com",
     "url": "github.com/diegohaz"
   },
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "engines": {
     "node": ">=6"
   },

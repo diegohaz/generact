@@ -1,9 +1,10 @@
 // @flow
-import { dirname, join, relative } from 'path'
+import { basename, dirname, isAbsolute, join, relative } from 'path'
 import { camelCase, upperFirst } from 'lodash'
 import { gray } from 'chalk'
 import glob from 'glob'
 import listReactFiles from 'list-react-files'
+import { copy, move, readFileSync, writeFileSync } from 'fs-extra'
 import type { InquirerFile } from './types'
 
 const removeExt = path => path.replace(/\.[^.]+$/, '')
@@ -42,12 +43,15 @@ export const getFiles = (cwd: string, componentName?: string): string[] => {
   return glob.sync(pattern, { cwd, absolute: true, nodir: true })
 }
 
-export const getComponentFiles = (root: string): Promise<InquirerFile[]> => (
+export const getComponentFiles = (
+  root: string,
+  workingDir?: string = process.cwd()
+): Promise<InquirerFile[]> => (
   listReactFiles(root).then((files: string[]) =>
     files.map((path: string): InquirerFile => {
       const name = getComponentName(path)
       const absolutePath = join(root, path)
-      const relativePath = relative(process.cwd(), absolutePath)
+      const relativePath = relative(workingDir, absolutePath)
       return {
         name: `${name} ${gray(relativePath)}`,
         short: name,
@@ -65,3 +69,41 @@ export const replaceContents = (
   new RegExp(`([^a-zA-Z0-9_$])${oldName}([^a-zA-Z0-9_$]|Container)`, 'g'),
   `$1${newName}$2`
 )
+
+export const performReplication = async (
+  originalPath: string,
+  answers: { name: string, folder: string },
+  workingDir?: string = process.cwd()
+) => {
+  const originalName = getComponentName(originalPath)
+  const absolutePath = isAbsolute(originalPath) ? originalPath : join(workingDir, originalPath)
+
+  const promises = []
+
+  if (isSingleFile(originalPath)) {
+    const files = getFiles(dirname(absolutePath), originalName)
+
+    files.forEach(async (file) => {
+      const filename = basename(file).replace(originalName, answers.name)
+      const destinationPath = join(workingDir, answers.folder, filename)
+      const promise = copy(file, destinationPath).then(() => {
+        const contents = readFileSync(destinationPath).toString()
+        writeFileSync(destinationPath, replaceContents(contents, originalName, answers.name))
+      })
+      promises.push(promise)
+    })
+  } else {
+    const destinationPath = join(workingDir, answers.folder, answers.name)
+    await copy(dirname(absolutePath), destinationPath)
+    const files = getFiles(destinationPath)
+
+    files.forEach((file) => {
+      const contents = readFileSync(file).toString()
+      const renamedPath = join(dirname(file), basename(file).replace(originalName, answers.name))
+      writeFileSync(file, replaceContents(contents, originalName, answers.name))
+      const promise = move(file, renamedPath)
+      promises.push(promise)
+    })
+  }
+  await Promise.all(promises)
+}
