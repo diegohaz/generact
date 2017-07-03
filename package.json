@@ -18,6 +18,8 @@
     "generact": "dist/cli.js"
   },
   "files": [
+    "index.js",
+    "index.d.ts",
     "dist"
   ],
   "scripts": {
