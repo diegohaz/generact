@@ -9,8 +9,8 @@
     "email": "hazdiego@gmail.com",
     "url": "github.com/diegohaz"
   },
-  "main": "./index.js",
-  "types": "./index.d.ts",
+  "main": "index.js",
+  "types": "index.d.ts",
   "engines": {
     "node": ">=6"
   },
