@@ -1,4 +1,6 @@
-import { join } from 'path'
+import { join, relative } from 'path'
+import { tmpdir } from 'os'
+import { remove, pathExistsSync, readFileSync } from 'fs-extra'
 import {
   getComponentName,
   getComponentFolder,
@@ -6,6 +8,7 @@ import {
   getFiles,
   getComponentFiles,
   replaceContents,
+  performReplication,
 } from '../src/utils'
 
 test('getComponentName', () => {
@@ -93,4 +96,59 @@ test('replaceContents', () => {
     const AnotherButton = () => <button />
     export default AnotherButton
   `)
+})
+
+describe('performReplication', () => {
+  const tmp = (path = '') => join(tmpdir(), 'generact', path)
+
+  const root = name => join(__dirname, 'fixtures', name)
+
+  const exec = (originalPath, newName) =>
+    performReplication(originalPath, { name: newName, folder: relative(process.cwd(), tmp()) })
+
+  beforeAll(() => remove(tmp()))
+  afterAll(() => remove(tmp()))
+
+  describe('create-react-app', () => {
+    describe('src/App.js', () => {
+      beforeAll(done => exec(root('create-react-app/src/App.js'), 'MyComponent').then(done))
+
+      it('created component file properly', () => {
+        expect(pathExistsSync(tmp('MyComponent.js'))).toBe(true)
+        expect(pathExistsSync(tmp('MyComponent.css'))).toBe(true)
+        expect(pathExistsSync(tmp('MyComponent.test.js'))).toBe(true)
+      })
+
+      it('modified component contents properly', () => {
+        const contents = readFileSync(tmp('MyComponent.js')).toString()
+
+        expect(contents).toMatch(/import '.\/MyComponent.css'/)
+        expect(contents).toMatch(/class MyComponent extends Component/)
+        expect(contents).toMatch(/className="MyComponent"/)
+        expect(contents).toMatch(/className="MyComponent-header"/)
+        expect(contents).toMatch(/className="MyComponent-logo"/)
+        expect(contents).toMatch(/className="MyComponent-intro"/)
+        expect(contents).toMatch(/<code>src\/MyComponent.js<\/code>/)
+        expect(contents).toMatch(/export default MyComponent/)
+      })
+    })
+  })
+
+  describe('react-static-boilerplate', () => {
+    describe('components/Button', () => {
+      beforeAll(done => exec(root('react-static-boilerplate/components/Button/Button.js'), 'MyComponent').then(done))
+
+      it('created component file properly', () => {
+        expect(pathExistsSync(tmp('MyComponent/MyComponent.js'))).toBe(true)
+        expect(pathExistsSync(tmp('MyComponent/package.json'))).toBe(true)
+      })
+
+      it('modified package contents properly', () => {
+        const contents = readFileSync(tmp('MyComponent/package.json')).toString()
+        const json = JSON.parse(contents)
+        expect(json.name).toBe('MyComponent')
+        expect(json.main).toBe('./MyComponent.js')
+      })
+    })
+  })
 })
