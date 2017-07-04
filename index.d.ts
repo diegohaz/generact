@@ -28,6 +28,9 @@ export declare function getComponentFiles(
  * Replicate component given by `originialPath` into component with name `answers.name`
  * in folder `answers.folder`.
  *
+ * `originalPath` should point to the component file itself. Test, styles, etc. will also
+ * be copied automatically.
+ *
  * @param originalPath Path of the component to replicate.
  * @param answers An object containing `name` and `folder` of the new component.
  * @param workingDir (Optional) Current working directory
