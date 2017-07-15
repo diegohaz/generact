@@ -27,6 +27,8 @@
 
 ## Install
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/diegohaz/generact.svg)](https://greenkeeper.io/)
+
 ```sh
 $ npm install -g generact
 ```
