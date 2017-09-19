@@ -12,7 +12,7 @@
 <br />
 
 <p align="center">
-  <em>Tool for generating React components by replicating your own components.</em><br />
+  <em>Tool for generating React components by replicating your own.</em><br />
   <em>It's intended to work no matter how your file structure is.</em>
 </p>
 
