@@ -35,7 +35,7 @@ export declare function getComponentFiles(
  * @param answers An object containing `name` and `folder` of the new component.
  * @param workingDir (Optional) Current working directory
  */
-export declare function performReplication(
+export declare function replicate(
   originalPath: string,
   answers: { name: string; folder: string },
   workingDir?: string,

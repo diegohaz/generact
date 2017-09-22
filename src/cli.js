@@ -11,7 +11,7 @@ import {
   getComponentName,
   getComponentFolder,
   getComponentFiles,
-  performReplication,
+  replicate,
 } from './utils'
 
 const cli = meow(`
@@ -27,7 +27,7 @@ const cli = meow(`
     $ generact --root src/components
 `)
 
-const replicate = async (path) => {
+const performReplication = async (path) => {
   const originalName = getComponentName(path)
   const absolutePath = isAbsolute(path) ? path : join(process.cwd(), path)
   const relativePath = relative(process.cwd(), absolutePath)
@@ -38,7 +38,7 @@ const replicate = async (path) => {
     folder(originalFolder),
   ])
 
-  performReplication(path, answers)
+  replicate(path, answers)
 }
 
 const scan = async (root = process.cwd()) => {
@@ -63,7 +63,7 @@ const scan = async (root = process.cwd()) => {
 }
 
 if (cli.input.length) {
-  replicate(cli.input[0])
+  performReplication(cli.input[0])
 } else {
-  scan(cli.flags.root).then(replicate)
+  scan(cli.flags.root).then(performReplication)
 }

@@ -8,7 +8,7 @@ import {
   getFiles,
   getComponentFiles,
   replaceContents,
-  performReplication,
+  replicate,
 } from '../src/utils'
 
 test('getComponentName', () => {
@@ -98,13 +98,13 @@ test('replaceContents', () => {
   `)
 })
 
-describe('performReplication', () => {
+describe('replicate', () => {
   const tmp = (path = '') => join(tmpdir(), 'generact', path)
 
   const root = name => join(__dirname, 'fixtures', name)
 
   const exec = (originalPath, newName) =>
-    performReplication(originalPath, { name: newName, folder: relative(process.cwd(), tmp()) })
+    replicate(originalPath, { name: newName, folder: relative(process.cwd(), tmp()) })
 
   beforeAll(() => remove(tmp()))
   afterAll(() => remove(tmp()))

@@ -70,7 +70,7 @@ export const replaceContents = (
   `$1${newName}$2`
 )
 
-export const performReplication = async (
+export const replicate = async (
   originalPath: string,
   answers: { name: string, folder: string },
   workingDir?: string = process.cwd()
