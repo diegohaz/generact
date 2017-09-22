@@ -24,7 +24,7 @@
   ],
   "scripts": {
     "pretest": "npm run build",
-    "test": "jest --forceExit",
+    "test": "jest --forceExit --runInBand",
     "coverage": "npm test -- --coverage",
     "postcoverage": "opn coverage/lcov-report/index.html",
     "lint": "eslint src test",
