@@ -6,9 +6,10 @@ export const component = (files: InquirerFile[]): {} => ({
   type: 'autocomplete',
   name: 'component',
   message: 'Which component do you want to replicate?',
-  source: (_, input) => Promise.resolve(
-    files.filter(file => !input || file.value.toLowerCase().indexOf(input.toLowerCase()) >= 0)
-  ),
+  source: (_, input) =>
+    Promise.resolve(
+      files.filter(file => !input || file.value.toLowerCase().indexOf(input.toLowerCase()) >= 0)
+    ),
 })
 
 export const name = (originalName: string): {} => ({
