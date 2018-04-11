@@ -9,25 +9,25 @@
   <a href="https://codecov.io/gh/diegohaz/generact/branch/master"><img alt="Coverage Status" src="https://img.shields.io/codecov/c/github/diegohaz/generact/master.svg?style=flat-square" /></a>
 </p>
 
-<br />
+<br>
 
 <p align="center">
   <em>Tool for generating React components by replicating your own.</em><br />
   <em>It's intended to work no matter how your file structure is.</em>
 </p>
 
-<br />
+<br>
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/3068563/27687316-bb5bd832-5cac-11e7-9761-c489e5a3a9f0.gif" alt="generact" width="800" />
-  <br /><br />
+  <br><br>
 </p>
 
 <p align="center">
   <em>Are you looking for a VS Code extension? Try <a href="https://github.com/Dennitz/vscode-generact">vscode-generact</a>.</em>
 </p>
 
-<br />
+<br>
 
 > It already works with boilerplates such as [create-react-app](https://github.com/facebookincubator/create-react-app) (above example), [react-boilerplate](https://github.com/react-boilerplate/react-boilerplate), [react-starter-kit](https://github.com/kriasoft/react-starter-kit) and [ARc](https://arc.js.org) (ok, I'm self-promoting here 😆). So, most likely this will work for you with your current project.
 
