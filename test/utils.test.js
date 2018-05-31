@@ -85,15 +85,27 @@ test('getComponentFiles', async () => {
 test('replaceContents', () => {
   const contents = `
     import './Button.css'
+    import ButtonComponent from '../ButtonComponent'
+    import NodeButtonComponent from 'node-button-component'
+    import NodeYellowButtonComponent from 'node-component/YellowButton'
     import SimpleButton from './SimpleButton'
+    import { someButtonUtil } from './SimpleButtonUtils'
+    import { someButtonUtil } from "./SimpleButtonUtils";
     const Button = () => <button />
+    export const someButtonUtil = () => {}
     export default Button
   `
 
   expect(replaceContents(contents, 'Button', 'AnotherButton')).toBe(`
     import './AnotherButton.css'
-    import SimpleButton from './SimpleButton'
+    import ButtonComponent from '../ButtonComponent'
+    import NodeButtonComponent from 'node-button-component'
+    import NodeYellowButtonComponent from 'node-component/YellowButton'
+    import SimpleButton from './SimpleAnotherButton'
+    import { someButtonUtil } from './SimpleAnotherButtonUtils'
+    import { someButtonUtil } from "./SimpleAnotherButtonUtils";
     const AnotherButton = () => <button />
+    export const someButtonUtil = () => {}
     export default AnotherButton
   `)
 })
