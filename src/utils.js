@@ -66,8 +66,8 @@ export const replaceContents = (
   oldName: string,
   newName: string
 ): string => contents.replace(
-  new RegExp(`([^a-zA-Z0-9_$])${oldName}([^a-zA-Z0-9_$]|Container)`, 'g'),
-  `$1${newName}$2`
+  new RegExp(`([^a-zA-Z0-9_$])${oldName}([^a-zA-Z0-9_$]|Container)|('./[a-zA-Z0-9_$]*?)${oldName}([a-zA-Z0-9_$]*?)`, 'g'),
+  `$1$3${newName}$2$4`
 )
 
 export const replicate = async (
