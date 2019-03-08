@@ -38,7 +38,7 @@ export const isSingleFile = (path: string): boolean => {
 }
 
 export const getFiles = (cwd: string, componentName?: string): string[] => {
-  const extensions = '{js,ts,jsx,tsx,css,less,scss,sass,sss,json,md}'
+  const extensions = '{js,ts,jsx,tsx,css,less,scss,sass,sss,json,md,mdx}'
   const pattern = componentName ? `**/${componentName}{.,.*.}${extensions}` : `**/*.${extensions}`
   return glob.sync(pattern, { cwd, absolute: true, nodir: true })
 }
